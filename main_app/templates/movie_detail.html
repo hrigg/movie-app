@@ -32,8 +32,12 @@
            <h3> <span> {{forloop.counter}}</span>
             <span><b>{{review.title}}</b></span>
             <span>{{review.rating}} % </span>
+       
+          
         </h3>
             <span><b>{{review.reason}}</b></span>
+            <br>
+            - User: {{review.user.username}}
         </div>
         {% empty %}
         <p> No Reviews Available</p>

@@ -13,4 +13,5 @@ urlpatterns = [
     path('list/<int:pk>/movies/<int:movie_pk>/', views.ListMovieAssoc.as_view(), name="list_movie_assoc"),
     path('list/<int:pk>', views.ListDetail.as_view(), name="list_detail"),
     path('list/new', views.ListCreate.as_view(), name='list'),
+    path('accounts/signup/', views.Signup.as_view(), name="signup")
 ]

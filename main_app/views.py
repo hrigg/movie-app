@@ -7,6 +7,8 @@ from .models import Movie, Review, List
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
 # Create your views here.
 
 class Home(TemplateView):
@@ -81,14 +83,17 @@ class ListMovieAssoc(View):
             List.objects.get(pk=pk).movies.add(movie_pk)
         return redirect('/')
 
-class ListDetail(DetailView):
+class ListDetail(DetailView, DeleteView):
     model=List
     template_name= 'list_detail.html'
     def get_context_data(self, **kwargs):
         context=super().get_context_data(**kwargs)
         context['films']= Movie.objects.all()
         return context
+    success_url= '/'
 
+    
+ 
 
 class ListCreate(CreateView):
     model = List
@@ -102,3 +107,22 @@ class ListCreate(CreateView):
     def get_success_url(self):
         print(self.kwargs)
         return reverse('list_detail', kwargs={'pk': self.object.pk})
+
+
+
+class Signup(View):
+    # show a form to fill out
+        def get(self, request):
+            form = UserCreationForm()
+            context = {"form": form}
+            return render(request, "registration/signup.html", context)
+    # on form submit, validate the form and login the user.
+        def post(self, request):
+            form = UserCreationForm(request.POST)
+            if form.is_valid():
+                user = form.save()
+                login(request, user)
+                return redirect("artist_list")
+            else:
+                context = {"form": form}
+                return render(request, "registration/signup.html", context)

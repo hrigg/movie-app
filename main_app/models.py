@@ -25,7 +25,8 @@ class Review(models.Model):
         ])
     reason= models.TextField(max_length=1000)
     movie= models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='reviews')
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    
     def __str__(self):
         return self.title
 
