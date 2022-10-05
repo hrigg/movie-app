@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div >
+ <h1 class="list_title">{{list.title}}</h1>  
+  {{list.title}}
+  {% for movie in list.movies.all %}
+  <div class="review">
+    <a href="/movies/{{movie.pk}}" >
+     <h3> <span> {{forloop.counter}}</span>
+      <h1 class="listitem_name">{{movie.name}}</h1>
+      <img src="{{movie.image}}" style='max-width:50px'/>
+     </a>
+  </div>
+  {% empty %}
+  <p> Add Movies to this List!!</p>
+</div>
+{% endfor %}
+
+<div class="dropdown-menu" id="dropdown-menu" role="menu">
+    <div class="dropdown-content">
+      {% for film in films %}
+  <!-- each playlist becomes a drop
+  down item with the ids needed to add to the join table  -->
+      <a
+        href="{% url 'list_movie_assoc' list.pk film.pk %}?assoc=add"
+        class="dropdown-item"
+      >
+        {{film.name}}
+      </a>
+      
+      {% endfor %}
+    </div>
+  </div>
+</div>
+</div>
+
+
+{% endblock %}

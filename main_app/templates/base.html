@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <link rel="stylesheet" href="{% static 'styles/main.css' %}" />
         <script src="{% static 'scripts/main.js' %}" defer></script>    
         <meta charset="UTF-8" />
@@ -10,20 +11,34 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <title>Movie - {% block title %}{% endblock %}</title> 
+
     </head>
     <body >
         <nav class="navbar is-black" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
-                <a class="navbar-item" href="/">Movies</a>
+                <a class="navbar-item" href="/">MovieApp</a>
                 <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                 </a>
             </div>
-            <div class="navbar-menu navbar-end">
-                <a class="navbar-item" href="/movies">Movies</a>
+            <div class="navbar-menu navbar-start">
+                <a class="navbar-item" href="/movies">Categories</a>
             </div>
+            <div class="navbar-menu navbar-end">
+                <a class="navbar-item" href="/movies/new">Add Movie</a>
+            </div>
+            {% if user.is_authenticated %}
+                <div class="navbar-menu navbar-end">
+                    <span class="navbar-item">Welcome: {{user.username}}</span>
+                    <a class="navbar-item" href="{% url 'logout' %}">Logout</a>
+                </div>
+            {% else %}
+                <div class="navbar-menu navbar-end">
+                    <a class="navbar-item" href="{% url 'login' %}">Log In</a>
+                </div>
+            {% endif %}
         </nav>
         <div class="container">
 

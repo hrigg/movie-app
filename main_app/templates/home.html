@@ -1,4 +1,81 @@
 {% extends 'base.html'%}
 {% block content %}
-<h1> Movie Home Page</h1>
+<div class="home__playlists">
+    <a href="/list/new">
+    <span class="icon-text">
+        <span class="icon">
+          <i class="fas fa-plus-square"></i>
+        </span>
+        <span>Add New List</span>
+      </span>
+    </a>
+    {% for list in lists %}
+
+        <div class="list mb-5">
+            <hr />
+            <a href="/list/{{list.pk}}" >
+            <h3 class="title is-3 has-text-success">{{list.title}}</h3>
+            </a>
+            
+            <span>
+                <div class="dropdown">
+                  <div class="dropdown-trigger">
+                    <button
+                      class="button"
+                      aria-haspopup="true"
+                      aria-controls="dropdown-menu"
+                    >
+                      <span>Add Movie</span>
+                      <span class="icon is-small">
+                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                      </span>
+                    </button>
+                  </div>
+                  <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div class="dropdown-content">
+                      {% for film in films %}
+                  <!-- each playlist becomes a drop
+                  down item with the ids needed to add to the join table  -->
+                      <a
+                        href="{% url 'list_movie_assoc' list.pk film.pk %}?assoc=add"
+                        class="dropdown-item"
+                      >
+                        {{film.name}}
+                      </a>
+                      
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </span>
+             
+            {% for movie in list.movies.all %}
+
+                <div class="movie">
+                    <span>{{forloop.counter}}</span>
+                    <span><b>{{movie.name}} - {{movie.year}} </b></span>
+                   <a href="/movies/{{movie.pk}}" >
+                     <img src="{{movie.image}}" style='max-width:50px'/>
+                    </a>
+                    <span>
+                        <!--   Here we are creating an anchor
+                        tag that when clicked will hit our new
+                        route and send a query to remove the song     -->
+                        <a href="{% url 'list_movie_assoc' list.pk movie.pk %}?assoc=remove" class="button is-danger is-outlined">
+                        <span class="icon is-small">
+                            <i class="fas fa-times"></i>
+                        </span>
+                        </a>
+                    </span>
+                    
+                </div>
+
+            {% endfor %}
+        </div>
+    {% empty %} 
+        <div class="list mb-5">"There are no movies in this list"</div>
+    {% endfor %}
+    
+
+</div>
 {% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="detail__img">
+    <img src="{{movie.image}}" alt="{{movie.name}}" />
+</div>
+<div class="detail_name">
+   <h1> {{movie.name}} - {{movie.year}}</h1>
+</div>
+<div class="detail__container">
+    <div class="buttons">
+        <a href=" {% url 'movie_update' movie.pk %}" class="button is-info">
+            <span class="icon">
+                <i class="fas fa-edit"></i>
+            </span>
+        </a>
+        <a href="/movies/{{movie.id}}/delete" class="button is-danger">
+            <span class="icon">
+                <i class="fas fa-trash-alt"></i>
+            </span>
+        </a>
+    </div>
+    <div class="detail__about">
+        <h4 class="title is-4">About</h4>
+        <p>{{movie.description}}</p>
+    </div>
+    <div class="'detail_reviews mb-5">
+        
+        <h2> Reviews</h2>
+        {% for review in movie.reviews.all %}
+        <div class="review">
+           <h3> <span> {{forloop.counter}}</span>
+            <span><b>{{review.title}}</b></span>
+            <span>{{review.rating}} % </span>
+        </h3>
+            <span><b>{{review.reason}}</b></span>
+        </div>
+        {% empty %}
+        <p> No Reviews Available</p>
+    </div>
+    {% endfor %}
+    <form class="mb-5" action="{% url 'review_create' movie.pk %}" method="post">
+        {% csrf_token %}
+        <div class="field has-addons">
+            <div class="control">
+                <input
+                class="input"
+                type="text"
+                name="title"
+                placeholder="Title"
+                required />
+            </div>
+            <div class="control">
+                <input
+                class="input"
+                type="number"
+                name="rating"
+                placeholder="% Rating"
+                required />
+            </div>
+            <div class="control">
+                <input
+                class="input"
+                type="text"
+                name="reason"
+                placeholder="Reasoning"
+                required />
+            </div>
+            <div class="control">
+                <input class="button is-primary" type="submit" value="Add Review"/>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+{% endblock %}

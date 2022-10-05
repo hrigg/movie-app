@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1> Create New List </h1>
+<h2> What name do you want to give your new list category?</h2> 
+<form method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Submit" />
+</form>
+
+{% endblock %}
